@@ -1,6 +1,6 @@
 import React from "react";
 import Webcam from "react-webcam";
-import { useAnimationFrame } from "./hooks/useAnimationFrame";
+import { useAnimationFrame } from "../../hooks/useAnimationFrame";
 
 const videoConstraints = {
   width: 400,
@@ -14,7 +14,7 @@ export const WebcamCapture = ({ setSourceImg, setFrameCount }) => {
   useAnimationFrame(() => grabFrame());
 
   const grabFrame = () => {
-    if (!canvasRef || !webcamRef) return;
+    if (!canvasRef || !webcamRef || !webcamRef.current) return;
     const frameCanvas = webcamRef.current.getCanvas();
     const screenCanvas = canvasRef.current;
     if (!frameCanvas || !screenCanvas) return;
