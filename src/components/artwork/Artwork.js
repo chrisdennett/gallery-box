@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import fx from "glfx";
 import { createInkCanvas, drawCanvasToCanvas } from "./helpers";
+import SoundMonitor from "./SoundMonitor";
 
 export default function Artwork({ sourceImg, frameCount }) {
   const [showControls, setShowControls] = useState(false);
@@ -32,6 +33,7 @@ export default function Artwork({ sourceImg, frameCount }) {
 
   return (
     <div>
+      <SoundMonitor />
       <div>
         {showControls && (
           <>
