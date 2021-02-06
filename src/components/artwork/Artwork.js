@@ -27,9 +27,9 @@ export default function Artwork({ sourceImg, frameCount }) {
 
   return (
     <div>
-      <SoundMonitor onVolumeChange={setVolume} volume={volume} />
+      {/* <SoundMonitor onVolumeChange={setVolume} volume={volume} /> */}
 
-      <div>
+      {/* <div>
         {showControls && (
           <>
             INK:{" "}
@@ -52,7 +52,7 @@ export default function Artwork({ sourceImg, frameCount }) {
             />
           </>
         )}
-      </div>
+      </div> */}
       <div onClick={() => setShowControls((prev) => !prev)}>
         <canvas ref={experimentCanvasRef} />
       </div>
