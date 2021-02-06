@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-export default function SoundMonitor() {
-  const [volume, setVolume] = useState(0);
+export default function SoundMonitor({ onVolumeChange, volume }) {
+  const [freqArray, setFreqArray] = useState([]);
 
   useEffect(() => {
     navigator.mediaDevices
@@ -10,6 +10,8 @@ export default function SoundMonitor() {
       .catch(function (err) {
         console.log("Sound not allowed: ", err);
       });
+
+    // eslint-disable-next-line
   }, []);
 
   function soundAllowed(stream) {
@@ -28,25 +30,42 @@ export default function SoundMonitor() {
     javascriptNode.connect(audioContext.destination);
 
     javascriptNode.addEventListener("audioprocess", function () {
-      var array = new Uint8Array(analyser.frequencyBinCount);
+      const array = new Uint8Array(analyser.frequencyBinCount);
       analyser.getByteFrequencyData(array);
-      var values = 0;
+      let values = 0;
 
-      var length = array.length;
-      for (var i = 0; i < length; i++) {
+      const length = array.length; // 512
+
+      for (let i = 0; i < length; i++) {
         values += array[i];
       }
 
-      var average = values / length;
+      const average = values / length;
 
-      setVolume(average);
+      setFreqArray(Array.from(array));
+      onVolumeChange(average);
       // colorPids(average);
     });
   }
 
+  const freqBarWidth = 512 / 100;
+
   return (
     <div>
-      <h1>SoundMonitor: {volume}</h1>
+      <svg height={40} width={"100%"}>
+        <rect x={0} y={0} width={`${volume}%`} height={10} fill={"red"} />
+
+        {freqArray.map((f, i) => (
+          <rect
+            key={i}
+            x={i * freqBarWidth}
+            y={10}
+            width={(f / 100) * freqBarWidth}
+            height={10}
+            fill={"blue"}
+          />
+        ))}
+      </svg>
     </div>
   );
 }

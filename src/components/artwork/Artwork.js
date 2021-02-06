@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import fx from "glfx";
 import { createInkCanvas, drawCanvasToCanvas } from "./helpers";
-import SoundMonitor from "./SoundMonitor";
+import SoundMonitor from "../soundMonitor/SoundMonitor";
 
 export default function Artwork({ sourceImg, frameCount }) {
+  const [volume, setVolume] = useState(0);
   const [showControls, setShowControls] = useState(false);
   const [glCanvas, setGlCanvas] = useState(null);
   const [denoiseLevel, setDenoiseLevel] = useState(25);
@@ -33,7 +34,8 @@ export default function Artwork({ sourceImg, frameCount }) {
 
   return (
     <div>
-      <SoundMonitor />
+      <SoundMonitor onVolumeChange={setVolume} volume={volume} />
+
       <div>
         {showControls && (
           <>
