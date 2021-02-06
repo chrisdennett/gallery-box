@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import fx from "glfx";
-import { createInkCanvas, drawCanvasToCanvas } from "./helpers";
+import { drawCanvasToCanvas } from "./helpers";
 import SoundMonitor from "../soundMonitor/SoundMonitor";
 
 export default function Artwork({ sourceImg, frameCount }) {
