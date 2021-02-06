@@ -16,6 +16,56 @@ export const drawCanvasToCanvas = (srcCanvas, targCanvas, scale = 1) => {
   );
 };
 
+export function drawStretchCanvas(sourceCanvas, stretchSize = 50) {
+  const outCanvas = document.createElement("canvas");
+  const { width: srcW, height: srcH } = sourceCanvas;
+  const targStretchW = stretchSize;
+  const srcStretchW = 100;
+
+  outCanvas.width = srcW + targStretchW;
+  outCanvas.height = srcW;
+
+  const ctx = outCanvas.getContext("2d");
+  const srcMidX = Math.round(srcW / 2);
+  const srcStretchX = srcMidX - srcStretchW / 2;
+  const srcLeftSideW = srcStretchX;
+  const srcRightX = srcLeftSideW + srcStretchW;
+  const targRightX = srcLeftSideW + targStretchW;
+  const srcRightSideW = srcW + srcRightX;
+
+  // left side
+  drawSlice(sourceCanvas, ctx, 0, srcH, srcLeftSideW, 0, srcLeftSideW);
+
+  // stretch
+  drawSlice(
+    sourceCanvas,
+    ctx,
+    srcStretchX,
+    srcH,
+    srcStretchW,
+    srcStretchX,
+    targStretchW,
+    srcH
+  );
+
+  // right side
+  drawSlice(
+    sourceCanvas,
+    ctx,
+    srcRightX,
+    srcH,
+    srcRightSideW,
+    targRightX,
+    srcRightSideW
+  );
+
+  return outCanvas;
+}
+
+function drawSlice(src, ctx, srcX, srcH, srcW, targX, targW) {
+  ctx.drawImage(src, srcX, 0, srcW, srcH, targX, 0, targW, srcH);
+}
+
 export const createInkCanvas = (inputCanvas) => {
   if (!inputCanvas) return;
 

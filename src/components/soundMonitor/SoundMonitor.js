@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export default function SoundMonitor({ onVolumeChange, volume }) {
-  const [freqArray, setFreqArray] = useState([]);
+export default function SoundMonitor({ onVolumeChange }) {
+  // const [freqArray, setFreqArray] = useState([]);
 
   useEffect(() => {
     navigator.mediaDevices
@@ -42,16 +42,17 @@ export default function SoundMonitor({ onVolumeChange, volume }) {
 
       const average = values / length;
 
-      setFreqArray(Array.from(array));
+      // setFreqArray(Array.from(array));
       onVolumeChange(average);
       // colorPids(average);
     });
   }
 
-  const freqBarWidth = 512 / 100;
+  return null;
+}
 
-  return (
-    <div>
+/*
+<div>
       <svg height={40} width={"100%"}>
         <rect x={0} y={0} width={`${volume}%`} height={10} fill={"red"} />
 
@@ -67,5 +68,5 @@ export default function SoundMonitor({ onVolumeChange, volume }) {
         ))}
       </svg>
     </div>
-  );
-}
+
+*/
