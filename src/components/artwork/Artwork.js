@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 // import fx from "glfx";
 import { drawCanvasToCanvas } from "./helpers";
-import SoundMonitor from "../soundMonitor/SoundMonitor";
+// import SoundMonitor from "../soundMonitor/SoundMonitor";
 
 export default function Artwork({ sourceImg, frameCount }) {
-  const [volume, setVolume] = useState(0);
-  const [showControls, setShowControls] = useState(false);
+  // const [volume, setVolume] = useState(0);
+  // const [showControls, setShowControls] = useState(false);
   // const [glCanvas, setGlCanvas] = useState(null);
-  const [denoiseLevel, setDenoiseLevel] = useState(25);
-  const [inkLevel, setInkLevel] = useState(0.7);
+  // const [denoiseLevel, setDenoiseLevel] = useState(25);
+  // const [inkLevel, setInkLevel] = useState(0.7);
 
   const experimentCanvasRef = React.useRef(null);
 
-  const onInkLevelChange = (e) => setInkLevel(e.target.value);
-  const onDenoiseLevel = (e) => setDenoiseLevel(e.target.value);
+  // const onInkLevelChange = (e) => setInkLevel(e.target.value);
+  // const onDenoiseLevel = (e) => setDenoiseLevel(e.target.value);
 
   useEffect(() => {
     if (!sourceImg || !experimentCanvasRef) return;
@@ -23,7 +23,7 @@ export default function Artwork({ sourceImg, frameCount }) {
     drawCanvasToCanvas(sourceImg, expDisplayCanvas, 1);
 
     // eslint-disable-next-line
-  }, [sourceImg, frameCount, inkLevel]);
+  }, [sourceImg, frameCount]);
 
   return (
     <div>
@@ -53,7 +53,8 @@ export default function Artwork({ sourceImg, frameCount }) {
           </>
         )}
       </div> */}
-      <div onClick={() => setShowControls((prev) => !prev)}>
+      {/* <div onClick={() => setShowControls((prev) => !prev)}> */}
+      <div>
         <canvas ref={experimentCanvasRef} />
       </div>
     </div>
