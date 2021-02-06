@@ -19,7 +19,7 @@ export default function Artwork({ sourceImg, frameCount }) {
     if (!sourceImg || !experimentCanvasRef) return;
 
     const expDisplayCanvas = experimentCanvasRef.current;
-    const expCanvas = createInkCanvas(sourceImg);
+    // const expCanvas = createInkCanvas(sourceImg);
     drawCanvasToCanvas(sourceImg, expDisplayCanvas, 1);
 
     // eslint-disable-next-line
