@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import fx from "glfx";
+// import fx from "glfx";
 import { createInkCanvas, drawCanvasToCanvas } from "./helpers";
 import SoundMonitor from "../soundMonitor/SoundMonitor";
 
 export default function Artwork({ sourceImg, frameCount }) {
   const [volume, setVolume] = useState(0);
   const [showControls, setShowControls] = useState(false);
-  const [glCanvas, setGlCanvas] = useState(null);
+  // const [glCanvas, setGlCanvas] = useState(null);
   const [denoiseLevel, setDenoiseLevel] = useState(25);
   const [inkLevel, setInkLevel] = useState(0.7);
 
@@ -18,16 +18,9 @@ export default function Artwork({ sourceImg, frameCount }) {
   useEffect(() => {
     if (!sourceImg || !experimentCanvasRef) return;
 
-    if (!glCanvas) {
-      var canvas = fx.canvas();
-      setGlCanvas(canvas);
-    } else {
-      var texture = glCanvas.texture(sourceImg);
-      glCanvas.draw(texture).denoise(denoiseLevel).ink(inkLevel).update();
-      const expDisplayCanvas = experimentCanvasRef.current;
-      const expCanvas = createInkCanvas(glCanvas);
-      drawCanvasToCanvas(expCanvas, expDisplayCanvas, 1);
-    }
+    const expDisplayCanvas = experimentCanvasRef.current;
+    const expCanvas = createInkCanvas(sourceImg);
+    drawCanvasToCanvas(sourceImg, expDisplayCanvas, 1);
 
     // eslint-disable-next-line
   }, [sourceImg, frameCount, inkLevel]);
