@@ -16,21 +16,25 @@ export const drawCanvasToCanvas = (srcCanvas, targCanvas, scale = 1) => {
   );
 };
 
-export function drawStretchCanvas(sourceCanvas, stretchSize = 50) {
+export function drawStretchCanvas(
+  sourceCanvas,
+  stretchHorizontal = 50,
+  stretchVertical = 300,
+  srcStretchW = 100,
+  srcStretchH = 50
+) {
   const outCanvas = document.createElement("canvas");
   const { width: srcW, height: srcH } = sourceCanvas;
-  const targStretchW = stretchSize;
-  const srcStretchW = 100;
 
-  outCanvas.width = srcW + targStretchW;
-  outCanvas.height = srcW;
+  outCanvas.width = srcW + stretchHorizontal - srcStretchW;
+  outCanvas.height = srcW + stretchVertical - srcStretchH;
 
   const ctx = outCanvas.getContext("2d");
   const srcMidX = Math.round(srcW / 2);
   const srcStretchX = srcMidX - srcStretchW / 2;
   const srcLeftSideW = srcStretchX;
   const srcRightX = srcLeftSideW + srcStretchW;
-  const targRightX = srcLeftSideW + targStretchW;
+  const targRightX = srcLeftSideW + stretchHorizontal;
   const srcRightSideW = srcW + srcRightX;
 
   // left side
@@ -44,7 +48,7 @@ export function drawStretchCanvas(sourceCanvas, stretchSize = 50) {
     srcH,
     srcStretchW,
     srcStretchX,
-    targStretchW,
+    stretchHorizontal,
     srcH
   );
 
