@@ -3,17 +3,17 @@ import Webcam from "react-webcam";
 import { createSizedCanvas } from "../../helpers/helpers";
 import { useAnimationFrame } from "../../hooks/useAnimationFrame";
 
-// const videoConstraints = {
-//   width: 1024,
-//   height: 768,
-//   facingMode: "user",
-// };
-
 const videoConstraints = {
-  width: 960,
-  height: 720,
+  width: 1024,
+  height: 768,
   facingMode: "user",
 };
+
+// const videoConstraints = {
+//   width: 960,
+//   height: 720,
+//   facingMode: "user",
+// };
 
 export const WebcamCapture = ({ setSourceImg, setFrameCount }) => {
   const canvasRef = React.useRef(null);
