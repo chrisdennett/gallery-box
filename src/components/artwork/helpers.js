@@ -2,7 +2,8 @@ export const drawCanvasToCanvas = (
   srcCanvas,
   targCanvas,
   targW = 1024,
-  targH = 768
+  targH = 768,
+  doDoubleScan = true
 ) => {
   targCanvas.width = targW;
   targCanvas.height = targH;
@@ -19,6 +20,22 @@ export const drawCanvasToCanvas = (
     targCanvas.width,
     targCanvas.height
   );
+
+  if (doDoubleScan) {
+    // ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "overlay";
+    ctx.drawImage(
+      srcCanvas,
+      0,
+      0,
+      srcCanvas.width,
+      srcCanvas.height,
+      0,
+      0,
+      targCanvas.width,
+      targCanvas.height
+    );
+  }
 };
 
 export function drawStretchCanvas({

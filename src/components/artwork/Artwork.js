@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { drawCanvasToCanvas, drawStretchCanvas } from "./helpers";
-import SoundMonitor from "../soundMonitor/SoundMonitor";
+// import SoundMonitor from "../soundMonitor/SoundMonitor";
 
 export default function Artwork({ sourceImg, frameCount }) {
+  const [doDoubleScan, setDoDoubleScan] = useState(true);
   const experimentCanvasRef = React.useRef(null);
 
   useEffect(() => {
@@ -19,20 +20,26 @@ export default function Artwork({ sourceImg, frameCount }) {
     };
 
     const stretchCanvas = drawStretchCanvas(stretchProps);
-    drawCanvasToCanvas(stretchCanvas, expDisplayCanvas, 1024, 768);
+    drawCanvasToCanvas(
+      stretchCanvas,
+      expDisplayCanvas,
+      1024,
+      768,
+      doDoubleScan
+    );
 
     // eslint-disable-next-line
   }, [sourceImg, frameCount]);
 
-  const setVolume = (vol) => {
-    // setStretchSize(300 - vol * 3);
-  };
+  // const setVolume = (vol) => {
+  //   console.log('vol: ', vol)
+  // };
 
   return (
     <div>
-      <SoundMonitor onVolumeChange={setVolume} />
+      {/* <SoundMonitor onVolumeChange={setVolume} /> */}
 
-      <div>
+      <div onClick={() => setDoDoubleScan(!doDoubleScan)}>
         <canvas ref={experimentCanvasRef} />
       </div>
     </div>
