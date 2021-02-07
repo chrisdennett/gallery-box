@@ -1,6 +1,11 @@
-export const drawCanvasToCanvas = (srcCanvas, targCanvas, scale = 1) => {
-  targCanvas.width = srcCanvas.width * scale;
-  targCanvas.height = srcCanvas.height * scale;
+export const drawCanvasToCanvas = (
+  srcCanvas,
+  targCanvas,
+  targW = 1024,
+  targH = 768
+) => {
+  targCanvas.width = targW;
+  targCanvas.height = targH;
 
   const ctx = targCanvas.getContext("2d");
   ctx.drawImage(
@@ -16,58 +21,187 @@ export const drawCanvasToCanvas = (srcCanvas, targCanvas, scale = 1) => {
   );
 };
 
-export function drawStretchCanvas(
+export function drawStretchCanvas({
   sourceCanvas,
-  stretchHorizontal = 50,
-  stretchVertical = 300,
+  targStretchW = 300,
+  targStretchH = 300,
   srcStretchW = 100,
-  srcStretchH = 50
-) {
+  srcStretchH = 100,
+}) {
   const outCanvas = document.createElement("canvas");
   const { width: srcW, height: srcH } = sourceCanvas;
 
-  outCanvas.width = srcW + stretchHorizontal - srcStretchW;
-  outCanvas.height = srcW + stretchVertical - srcStretchH;
+  outCanvas.width = srcW + targStretchW - srcStretchW;
+  outCanvas.height = srcH + targStretchH - srcStretchH;
 
   const ctx = outCanvas.getContext("2d");
+
+  // put stretch in middle
   const srcMidX = Math.round(srcW / 2);
+  const srcMidY = Math.round(srcH / 2);
   const srcStretchX = srcMidX - srcStretchW / 2;
-  const srcLeftSideW = srcStretchX;
-  const srcRightX = srcLeftSideW + srcStretchW;
-  const targRightX = srcLeftSideW + stretchHorizontal;
-  const srcRightSideW = srcW + srcRightX;
+  const srcStretchY = srcMidY - srcStretchH / 2;
+  const targStretchX = srcStretchX;
+  const targStretchY = srcStretchY;
+  const srcRightSegX = srcStretchX + srcStretchW;
+  const targRightSegX = targStretchX + targStretchW;
+  const srcBottomSegY = srcStretchY + srcStretchH;
+  const targBottomSegY = targStretchY + targStretchH;
 
-  // left side
-  drawSlice(sourceCanvas, ctx, 0, srcH, srcLeftSideW, 0, srcLeftSideW);
+  const src = {};
+  src.topLeft = {
+    x: 0,
+    y: 0,
+    w: srcStretchX,
+    h: srcStretchY,
+  };
+  src.topRight = {
+    x: srcRightSegX,
+    y: 0,
+    w: srcW - srcRightSegX,
+    h: src.topLeft.h,
+  };
+  src.bottomLeft = {
+    x: 0,
+    y: srcBottomSegY,
+    w: src.topLeft.w,
+    h: srcH - srcBottomSegY,
+  };
+  src.bottomRight = {
+    x: src.topRight.x,
+    y: src.bottomLeft.y,
+    w: src.topRight.w,
+    h: srcH - srcBottomSegY,
+  };
+  src.middleLeft = {
+    x: 0,
+    y: src.topLeft.h,
+    h: srcStretchH,
+    w: src.topLeft.w,
+  };
+  src.middleRight = {
+    x: src.topRight.x,
+    y: src.middleLeft.y,
+    h: src.middleLeft.h,
+    w: src.topRight.w,
+  };
+  src.topMiddle = {
+    x: src.topLeft.w,
+    y: 0,
+    w: srcStretchW,
+    h: src.topLeft.h,
+  };
+  src.bottomMiddle = {
+    x: src.topMiddle.x,
+    y: src.bottomLeft.y,
+    w: src.topMiddle.w,
+    h: src.bottomLeft.h,
+  };
+  src.middleMiddle = {
+    x: src.topMiddle.x,
+    y: src.middleLeft.y,
+    w: src.topMiddle.w,
+    h: src.middleLeft.h,
+  };
 
-  // stretch
-  drawSlice(
-    sourceCanvas,
-    ctx,
-    srcStretchX,
-    srcH,
-    srcStretchW,
-    srcStretchX,
-    stretchHorizontal,
-    srcH
-  );
+  const targ = {};
+  targ.topLeft = {
+    x: src.topLeft.x,
+    y: src.topLeft.y,
+    w: src.topLeft.w,
+    h: src.topLeft.h,
+  };
+  targ.topRight = {
+    x: targRightSegX,
+    y: src.topLeft.y,
+    w: src.topLeft.w,
+    h: src.topLeft.h,
+  };
+  targ.bottomLeft = {
+    x: targ.topLeft.x,
+    y: targBottomSegY,
+    w: src.bottomLeft.w,
+    h: src.bottomLeft.h,
+  };
+  targ.bottomRight = {
+    x: targ.topRight.x,
+    y: targ.bottomLeft.y,
+    w: targ.topLeft.w,
+    h: targ.bottomLeft.h,
+  };
+  targ.middleLeft = {
+    x: 0,
+    y: targ.topLeft.h,
+    w: targ.topLeft.w,
+    h: targStretchH,
+  };
+  targ.middleRight = {
+    x: targ.topRight.x,
+    y: targ.middleLeft.y,
+    w: targ.topRight.w,
+    h: targ.middleLeft.h,
+  };
+  targ.topMiddle = {
+    x: targ.topLeft.w,
+    y: 0,
+    w: targStretchW,
+    h: targ.topLeft.h,
+  };
+  targ.bottomMiddle = {
+    x: targ.topMiddle.x,
+    y: targ.bottomLeft.y,
+    w: targ.topMiddle.w,
+    h: targ.bottomLeft.h,
+  };
+  targ.middleMiddle = {
+    x: targ.topMiddle.x,
+    y: targ.middleLeft.y,
+    w: targ.topMiddle.w,
+    h: targ.middleLeft.h,
+  };
 
-  // right side
-  drawSlice(
-    sourceCanvas,
-    ctx,
-    srcRightX,
-    srcH,
-    srcRightSideW,
-    targRightX,
-    srcRightSideW
-  );
+  // draw top left "Normal"
+  drawSegment(sourceCanvas, ctx, src.topLeft, targ.topLeft);
+
+  // draw bottom left "Normal"
+  drawSegment(sourceCanvas, ctx, src.bottomLeft, targ.bottomLeft);
+
+  // draw top right "Normal"
+  drawSegment(sourceCanvas, ctx, src.topRight, targ.topRight);
+
+  // draw bottom right "Normal"
+  drawSegment(sourceCanvas, ctx, src.bottomRight, targ.bottomRight);
+
+  // draw middle left stretch
+  drawSegment(sourceCanvas, ctx, src.middleLeft, targ.middleLeft);
+
+  // draw middle right stretch
+  drawSegment(sourceCanvas, ctx, src.middleRight, targ.middleRight);
+
+  // draw top middle stretch
+  drawSegment(sourceCanvas, ctx, src.topMiddle, targ.topMiddle);
+
+  // draw bottom middle stretch
+  drawSegment(sourceCanvas, ctx, src.bottomMiddle, targ.bottomMiddle);
+
+  // draw middle middle stretch
+  drawSegment(sourceCanvas, ctx, src.middleMiddle, targ.middleMiddle);
 
   return outCanvas;
 }
 
-function drawSlice(src, ctx, srcX, srcH, srcW, targX, targW) {
-  ctx.drawImage(src, srcX, 0, srcW, srcH, targX, 0, targW, srcH);
+function drawSegment(img, ctx, src, targ) {
+  ctx.drawImage(
+    img,
+    src.x,
+    src.y,
+    src.w,
+    src.h,
+    targ.x,
+    targ.y,
+    targ.w,
+    targ.h
+  );
 }
 
 export const createInkCanvas = (inputCanvas) => {

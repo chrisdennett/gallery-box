@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from "react";
-// import fx from "glfx";
+import React, { useEffect } from "react";
 import { drawCanvasToCanvas, drawStretchCanvas } from "./helpers";
 import SoundMonitor from "../soundMonitor/SoundMonitor";
 
 export default function Artwork({ sourceImg, frameCount }) {
-  const [stretchSize, setStretchSize] = useState(280);
   const experimentCanvasRef = React.useRef(null);
 
   useEffect(() => {
     if (!sourceImg || !experimentCanvasRef) return;
 
     const expDisplayCanvas = experimentCanvasRef.current;
-    const stretchCanvas = drawStretchCanvas(sourceImg, stretchSize);
-    drawCanvasToCanvas(stretchCanvas, expDisplayCanvas, 1);
+
+    const stretchProps = {
+      sourceCanvas: sourceImg,
+      targStretchW: 300,
+      targStretchH: 300,
+      srcStretchW: 100,
+      srcStretchH: 100,
+    };
+
+    const stretchCanvas = drawStretchCanvas(stretchProps);
+    drawCanvasToCanvas(stretchCanvas, expDisplayCanvas, 1024, 768);
 
     // eslint-disable-next-line
   }, [sourceImg, frameCount]);
 
   const setVolume = (vol) => {
-    setStretchSize(300 - vol * 3);
+    // setStretchSize(300 - vol * 3);
   };
 
   return (
