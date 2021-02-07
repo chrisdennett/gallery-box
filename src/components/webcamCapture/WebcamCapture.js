@@ -8,6 +8,15 @@ const videoConstraints = {
   facingMode: "user",
 };
 
+/*
+const videoConstraints = {
+  width: 960,
+  height: 720,
+  facingMode: "user",
+};
+
+*/
+
 export const WebcamCapture = ({ setSourceImg, setFrameCount }) => {
   const canvasRef = React.useRef(null);
   const webcamRef = React.useRef(null);

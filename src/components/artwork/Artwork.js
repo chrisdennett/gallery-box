@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { drawCanvasToCanvas, drawStretchCanvas } from "./helpers";
-// import SoundMonitor from "../soundMonitor/SoundMonitor";
 
 export default function Artwork({ sourceImg, frameCount }) {
   const [doDoubleScan, setDoDoubleScan] = useState(true);
@@ -36,12 +35,8 @@ export default function Artwork({ sourceImg, frameCount }) {
   // };
 
   return (
-    <div>
-      {/* <SoundMonitor onVolumeChange={setVolume} /> */}
-
-      <div onClick={() => setDoDoubleScan(!doDoubleScan)}>
-        <canvas ref={experimentCanvasRef} />
-      </div>
+    <div onClick={() => setDoDoubleScan(!doDoubleScan)}>
+      <canvas ref={experimentCanvasRef} />
     </div>
   );
 }
