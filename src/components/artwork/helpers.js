@@ -22,7 +22,7 @@ export const drawCanvasToCanvas = (
   );
 
   if (doDoubleScan) {
-    // ctx.globalAlpha = 1;
+    ctx.globalAlpha = 0.5;
     ctx.globalCompositeOperation = "overlay";
     ctx.drawImage(
       srcCanvas,
