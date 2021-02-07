@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { drawCanvasToCanvas, drawStretchCanvas } from "./helpers";
+import { drawCanvasToCanvas, drawStretchCanvas } from "../../helpers/helpers";
 
 export default function Artwork({ sourceImg, frameCount }) {
   const [doDoubleScan, setDoDoubleScan] = useState(true);

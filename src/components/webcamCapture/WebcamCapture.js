@@ -1,21 +1,19 @@
 import React from "react";
 import Webcam from "react-webcam";
+import { createSizedCanvas } from "../../helpers/helpers";
 import { useAnimationFrame } from "../../hooks/useAnimationFrame";
 
-const videoConstraints = {
-  width: 1024,
-  height: 768,
-  facingMode: "user",
-};
+// const videoConstraints = {
+//   width: 1024,
+//   height: 768,
+//   facingMode: "user",
+// };
 
-/*
 const videoConstraints = {
   width: 960,
   height: 720,
   facingMode: "user",
 };
-
-*/
 
 export const WebcamCapture = ({ setSourceImg, setFrameCount }) => {
   const canvasRef = React.useRef(null);
@@ -29,8 +27,8 @@ export const WebcamCapture = ({ setSourceImg, setFrameCount }) => {
     if (!frameCanvas || !screenCanvas) return;
 
     if (frameCanvas.width) {
-      // const resizedCanvas = createSizedCanvas(frameCanvas, 1024);
-      setSourceImg(frameCanvas);
+      const resizedCanvas = createSizedCanvas(frameCanvas, 1024);
+      setSourceImg(resizedCanvas);
       setFrameCount((prev) => prev + 1);
     }
   };
@@ -50,16 +48,3 @@ export const WebcamCapture = ({ setSourceImg, setFrameCount }) => {
     </>
   );
 };
-
-// function createSizedCanvas(sourceImg, w) {
-//   const outCanvas = document.createElement("canvas");
-//   const wToHratio = w / sourceImg.width;
-//   const h = wToHratio * sourceImg.height;
-
-//   outCanvas.width = w;
-//   outCanvas.height = h;
-//   const ctx = outCanvas.getContext("2d");
-//   ctx.drawImage(sourceImg, 0, 0, sourceImg.width, sourceImg.height, 0, 0, w, h);
-
-//   return outCanvas;
-// }

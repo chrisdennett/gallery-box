@@ -1,3 +1,16 @@
+export function createSizedCanvas(sourceImg, w) {
+  const outCanvas = document.createElement("canvas");
+  const wToHratio = w / sourceImg.width;
+  const h = wToHratio * sourceImg.height;
+
+  outCanvas.width = w;
+  outCanvas.height = h;
+  const ctx = outCanvas.getContext("2d");
+  ctx.drawImage(sourceImg, 0, 0, sourceImg.width, sourceImg.height, 0, 0, w, h);
+
+  return outCanvas;
+}
+
 export const drawCanvasToCanvas = (
   srcCanvas,
   targCanvas,
