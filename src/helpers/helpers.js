@@ -35,7 +35,13 @@ export const drawCanvasToCanvas = (
   );
 
   if (doDoubleScan) {
+    // ctx.globalAlpha = 0.45;
+
+    // ctx.fillStyle = "green";
+    // ctx.fillRect(0, 0, targW, targH);
+
     ctx.globalAlpha = 0.5;
+
     ctx.globalCompositeOperation = "overlay";
     ctx.drawImage(
       srcCanvas,

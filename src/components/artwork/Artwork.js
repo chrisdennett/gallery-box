@@ -12,8 +12,8 @@ export default function Artwork({ sourceImg, frameCount }) {
 
     const stretchProps = {
       sourceCanvas: sourceImg,
-      targStretchW: 300,
-      targStretchH: 300,
+      targStretchW: 320,
+      targStretchH: 320,
       srcStretchW: 100,
       srcStretchH: 100,
     };
@@ -36,7 +36,7 @@ export default function Artwork({ sourceImg, frameCount }) {
 
   return (
     <div onClick={() => setDoDoubleScan(!doDoubleScan)}>
-      <canvas ref={experimentCanvasRef} />
+      <canvas ref={experimentCanvasRef} style={{ cursor: "none" }} />
     </div>
   );
 }
