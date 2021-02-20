@@ -16,7 +16,8 @@ export const drawCanvasToCanvas = (
   targCanvas,
   targW = 1024,
   targH = 768,
-  doDoubleScan = true
+  spokenColour = "",
+  colour = "red"
 ) => {
   targCanvas.width = targW;
   targCanvas.height = targH;
@@ -34,11 +35,11 @@ export const drawCanvasToCanvas = (
     targCanvas.height
   );
 
-  if (doDoubleScan) {
-    // ctx.globalAlpha = 0.45;
+  if (spokenColour) {
+    ctx.globalAlpha = 0.4;
 
-    // ctx.fillStyle = "green";
-    // ctx.fillRect(0, 0, targW, targH);
+    ctx.fillStyle = spokenColour;
+    ctx.fillRect(0, 0, targW, targH);
 
     ctx.globalAlpha = 0.5;
 
@@ -54,6 +55,12 @@ export const drawCanvasToCanvas = (
       targCanvas.width,
       targCanvas.height
     );
+
+    ctx.globalAlpha = 1;
+    ctx.font = "30px Arial";
+
+    ctx.fillText("SHOUT OUT A COLOUR", 10, 50);
+    ctx.fillText(spokenColour.toUpperCase(), targW / 2, 50);
   }
 };
 
