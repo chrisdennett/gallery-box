@@ -22,10 +22,10 @@ export const drawCanvasToCanvas = (
   targCanvas.width = targW;
   targCanvas.height = targH;
 
-  const hue = frameCount % 360;
+  // const hue = frameCount % 360;
 
   const ctx = targCanvas.getContext("2d");
-  ctx.filter = `sepia(100) contrast(1.2) `;
+  ctx.filter = `contrast(1.1) sepia(100)`;
   // ctx.filter = `sepia(100%)`;
   // ctx.filter = "contrast(1.4) saturate(1.5) brightness(1.3)";
   // ctx.filter = "sepia(1)";
