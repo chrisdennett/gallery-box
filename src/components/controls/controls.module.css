@@ -1,0 +1,57 @@
+.controls {
+  padding: 20px;
+  position: fixed;
+  max-width: 400px;
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.sliderHolder {
+  display: flex;
+  margin: 10px 0;
+}
+
+.slider {
+  width: 100%;
+  min-width: 300px;
+  height: 25px;
+}
+
+.label {
+  display: inline-block;
+  min-width: 120px;
+  margin-right: 10px;
+  color: white;
+  background-color: black;
+  padding: 10px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.thumb {
+  height: 25px;
+  line-height: 25px;
+  width: 45px;
+  text-align: center;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  padding: 10px;
+  margin-top: -10px;
+  border-radius: 10px;
+  cursor: grab;
+}
+
+.track {
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  top: 10px;
+  height: 10px;
+  background: red;
+  /* background: ${(props) =>
+    props.index === 2 ? "#f00" : props.index === 1 ? "#ddd" : "#ddd"}; */
+}

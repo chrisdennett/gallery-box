@@ -16,12 +16,19 @@ export const drawCanvasToCanvas = (
   targCanvas,
   targW = 1024,
   targH = 768,
-  doDoubleScan = true
+  doDoubleScan = true,
+  frameCount
 ) => {
   targCanvas.width = targW;
   targCanvas.height = targH;
 
+  const hue = frameCount % 360;
+
   const ctx = targCanvas.getContext("2d");
+  ctx.filter = `hue-rotate(${hue}deg) saturate(1.5) contrast(1.1)`;
+  // ctx.filter = "contrast(1.4) saturate(1.5) brightness(1.3)";
+  // ctx.filter = "sepia(1)";
+  // ctx.filter = "contrast(1.4) brightness(1.2)";
   ctx.drawImage(
     srcCanvas,
     0,
@@ -34,27 +41,22 @@ export const drawCanvasToCanvas = (
     targCanvas.height
   );
 
-  if (doDoubleScan) {
-    // ctx.globalAlpha = 0.45;
+  //   if (doDoubleScan) {
+  //     ctx.globalAlpha = 0.5;
 
-    // ctx.fillStyle = "green";
-    // ctx.fillRect(0, 0, targW, targH);
-
-    ctx.globalAlpha = 0.5;
-
-    ctx.globalCompositeOperation = "overlay";
-    ctx.drawImage(
-      srcCanvas,
-      0,
-      0,
-      srcCanvas.width,
-      srcCanvas.height,
-      0,
-      0,
-      targCanvas.width,
-      targCanvas.height
-    );
-  }
+  //     ctx.globalCompositeOperation = "overlay";
+  //     ctx.drawImage(
+  //       srcCanvas,
+  //       0,
+  //       0,
+  //       srcCanvas.width,
+  //       srcCanvas.height,
+  //       0,
+  //       0,
+  //       targCanvas.width,
+  //       targCanvas.height
+  //     );
+  //   }
 };
 
 export function drawStretchCanvas({

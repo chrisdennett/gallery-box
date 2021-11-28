@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { drawCanvasToCanvas, drawStretchCanvas } from "../../helpers/helpers";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
+import Controls from "../controls/Controls";
 
 export default function Artwork({ sourceImg, frameCount }) {
-  const [doDoubleScan, setDoDoubleScan] = useState(true);
+  const [showControls, setShowControls] = useState(false);
+  const [settings, setSettings] = useLocalStorage("galleryBoxSettings", {
+    fromWidth: 100,
+    toWidth: 320,
+    fromHeight: 100,
+    toHeight: 320,
+  });
+
   const experimentCanvasRef = React.useRef(null);
 
   useEffect(() => {
@@ -12,10 +21,10 @@ export default function Artwork({ sourceImg, frameCount }) {
 
     const stretchProps = {
       sourceCanvas: sourceImg,
-      targStretchW: 320,
-      targStretchH: 320,
-      srcStretchW: 100,
-      srcStretchH: 100,
+      srcStretchW: settings.fromWidth,
+      targStretchW: settings.toWidth,
+      srcStretchH: settings.fromHeight,
+      targStretchH: settings.toHeight,
     };
 
     const stretchCanvas = drawStretchCanvas(stretchProps);
@@ -24,19 +33,25 @@ export default function Artwork({ sourceImg, frameCount }) {
       expDisplayCanvas,
       1024,
       768,
-      doDoubleScan
+      true,
+      frameCount
     );
 
     // eslint-disable-next-line
   }, [sourceImg, frameCount]);
 
-  // const setVolume = (vol) => {
-  //   console.log('vol: ', vol)
-  // };
+  const hiddenCursorClass = frameCount > 1000 ? "hiddenCursor" : "";
 
   return (
-    <div onClick={() => setDoDoubleScan(!doDoubleScan)}>
-      <canvas ref={experimentCanvasRef} style={{ cursor: "none" }} />
+    <div className={hiddenCursorClass}>
+      {showControls && (
+        <Controls settings={settings} setSettings={setSettings} />
+      )}
+
+      <canvas
+        ref={experimentCanvasRef}
+        onClick={() => setShowControls(!showControls)}
+      />
     </div>
   );
 }
